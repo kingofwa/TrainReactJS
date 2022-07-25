@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Link, BrowserRouter } from
+import { BrowserRouter as Router, Routes, Route, Navigate, Link, BrowserRouter, Switch } from
     'react-router-dom';
 import '../../assets/admin/css/styles.css';
 import '../../assets/admin/js/scripts';
@@ -24,24 +24,19 @@ const MasterLayout = () => {
                 </div>
                 <div id="layoutSidenav_content">
                     <main>
-                        <BrowserRouter>
-                            {routes.map((route, idx) => {
-                                console.log(route);
+                        <Switch>
+                            {routes.filter(route => route.component).map((route, idx) => {
                                 return (
-                                    route.component && (
-                                        <Route
-                                            key={idx}
-                                            path={route.path}
-                                            name={route.name}
-                                            exact={route.exact}
-                                            render={(props) => (
-                                                < route.component {...props} />
-                                            )}
-                                        />
-                                    )
+                                    <Route
+                                        key={idx}
+                                        path={route.path}
+                                        exact={route.exact}
+                                    >
+                                        <route.component />
+                                    </Route>
                                 )
                             })}
-                        </BrowserRouter>
+                        </Switch>
                     </main>
                     <Footer />
                 </div>

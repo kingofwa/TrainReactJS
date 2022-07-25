@@ -1,8 +1,7 @@
 import React from 'react';
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaAdn, FaHome, FaProfi } from 'react-icons/fa';
-import Dashboard from '../../components/admin/Dashbord';
-import { Navbar, Nav, TabContainer, NavDropdown } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 
 const Sidebar = () => {
     return (
