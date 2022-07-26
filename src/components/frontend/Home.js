@@ -1,8 +1,12 @@
-import React  from 'react';
+import React from 'react';
+import Navbar from '../../layouts/frontend/Navbar';
 
 const Home = () => {
     return (
-        <h1> I'M Home</h1>
+        <div>
+            <Navbar />
+            <h1> I'M Home</h1>
+        </div>
     );
 }
 export default Home;

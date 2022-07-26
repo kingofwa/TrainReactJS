@@ -18,6 +18,10 @@ const Sidebar = () => {
                             <div className="sb-nav-link-icon"><FaAdn /></div>
                             Profile
                         </Link>
+                        <Link to="/admin/test" className="nav-link">
+                            <div className="sb-nav-link-icon"><FaAdn /></div>
+                            Test
+                        </Link>
 
                         <div className="sb-sidenav-menu-heading">Interface</div>
                         <Link className="nav-link collapsed" to="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
