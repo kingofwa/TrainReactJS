@@ -1,7 +1,34 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import NavBar from "../../../layouts/frontend/Navbar";
 
 function Login() {
+    const [loginInput, Setlogin] = useState({
+        email: '',
+        password: '',
+        error_list:[],
+    });
+    const handleInput = (e) => {
+        e.persist();
+        Setlogin({ ...loginInput, [e.target.name]: e.target.value });
+    }
+    const loginSubmit = (e) => {
+        e.preventDefault();
+        const data = {
+            email: loginInput.email,
+            password: loginInput.password,
+        }
+
+        axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.post(`/api/login`, data).then(res => {
+                if (res.data.status === 200) {
+
+                } else {
+                    Setlogin({ ...loginInput, error_list: res.data.validator_errors })
+                }
+            });
+        })
+    }
     return (
         <div>
             <NavBar />
@@ -11,16 +38,16 @@ function Login() {
                         < div className="card">
                             < div className="card-header text-center">LOGIN</div>
                             < div className="card-body">
-                                <form>
+                                <form onSubmit={loginSubmit}>
                                     <div className="form-group mt-2">
-                                        <label for="exampleInputPassword1">Email ID</label>
-                                        <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Email ID" />
+                                        <label >Email ID</label>
+                                        <input type="text" className="form-control" value={loginInput.email} onChange={handleInput}  placeholder="Email ID" />
                                     </div>
                                     <div className="form-group mt-2">
-                                        <label for="exampleInputEmail1">Password</label>
-                                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password" />
+                                        <label >Password</label>
+                                        <input type="password" className="form-control" value={loginInput.password} onChange={handleInput}  placeholder="Password" />
                                     </div>
-                                    <button type="button" className="btn btn-primary mt-2">Login</button>
+                                    <button type="submit" className="btn btn-primary mt-2">Login</button>
                                 </form>
                             </div>
                         </div>

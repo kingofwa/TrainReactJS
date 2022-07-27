@@ -1,16 +1,20 @@
 import axios from "axios";
 import React, { useState } from "react";
 import NavBar from "../../../layouts/frontend/Navbar";
+import swal from 'sweetalert';
+import { useHistory } from "react-router-dom";
 
 function Register() {
+    const history = useHistory();
     const [registerInput, setRegisterInput] = useState({
         name: '',
         email: '',
-        password: ''
+        password: '',
+        error_list:[],
     });
 
     const handleInput = (e) => {
-        e.presist();
+        e.persist();
         setRegisterInput({ ...registerInput, [e.target.name]: e.target.value })
     }
 
@@ -24,9 +28,18 @@ function Register() {
             password: registerInput.password
         }
 
-        axios.post(`http://localhost:8000/api/register`, data).then(res => {
-            
-        });
+        axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.post(`/api/register`, data).then(res => {
+                if (res.data.status === 200) {
+                    localStorage.setItem('auth_token',res.data.token);
+                    localStorage.setItem('auth_name',res.data.username);
+                    swal("Success" ,res.data.message,"success");
+                    history.push('/');
+                } else {
+                    setRegisterInput({ ...registerInput, error_list: res.data.validator_errors })
+                }
+            });
+        })
     }
 
     return (
@@ -41,17 +54,20 @@ function Register() {
                                 <form onSubmit={RegisterSubmit}>
                                     <div className="form-group mt-2">
                                         <label for="exampleInputEmail1">Full Name</label>
-                                        <input type="" className="form-control" name="name" value={registerInput.name} onChange={handleInput} />
+                                        <input type="text" className="form-control" name="name" value={registerInput.name} onChange={handleInput} />
+                                        <span className="small">{registerInput.error_list.name}</span>
                                     </div>
                                     <div className="form-group mt-2">
                                         <label for="exampleInputPassword1">Email ID</label>
-                                        <input type="password" className="form-control" name="email" value={registerInput.email} onChange={handleInput} />
+                                        <input type="text" className="form-control" name="email" value={registerInput.email} onChange={handleInput} />
+                                        <span className="small">{registerInput.error_list.email}</span>
                                     </div>
                                     <div className="form-group mt-2">
                                         <label for="exampleInputEmail1">Password</label>
-                                        <input type="email" className="form-control" name="password" value={registerInput.password} onChange={handleInput} />
+                                        <input type="password" className="form-control" name="password" value={registerInput.password} onChange={handleInput} />
+                                        <span className="small">{registerInput.error_list.password}</span>
                                     </div>
-                                    <button type="button" className="btn btn-primary mt-2">Register</button>
+                                    <button type="submit" className="btn btn-primary mt-2">Register</button>
                                 </form>
                             </div>
                         </div>
