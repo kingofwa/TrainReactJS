@@ -18,16 +18,13 @@ function Register() {
         setRegisterInput({ ...registerInput, [e.target.name]: e.target.value })
     }
 
-
     const RegisterSubmit = (e) => {
         e.preventDefault();
-
         const data = {
             name: registerInput.name,
             email: registerInput.email,
             password: registerInput.password
         }
-
         axios.get('/sanctum/csrf-cookie').then(response => {
             axios.post(`/api/register`, data).then(res => {
                 if (res.data.status === 200) {
@@ -41,7 +38,6 @@ function Register() {
             });
         })
     }
-
     return (
         <div>
             <NavBar />

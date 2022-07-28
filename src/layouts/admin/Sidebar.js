@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { FaAdn, FaHome, FaProfi } from 'react-icons/fa';
+import { FaAdn, FaHome } from 'react-icons/fa';
 import { Nav } from "react-bootstrap";
 
 const Sidebar = () => {
